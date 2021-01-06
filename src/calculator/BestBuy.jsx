@@ -4,6 +4,8 @@ import { useForm, useFieldArray } from "react-hook-form";
 import Select from "react-select";
 
 function BestBuy() {
+  const [selectedUnit, setSelectedUnit] = useState(null);
+
   const units = [
     new Unit("Litros", 1000),
     new Unit("ml", 1),
@@ -12,7 +14,7 @@ function BestBuy() {
   ];
 
   let options = units.map((u) => {
-    return { value: u.basicValue, label: u.label };
+    return { value: u.label, label: u.label };
   });
 
   const { register, control, errors } = useForm({
@@ -20,6 +22,12 @@ function BestBuy() {
   });
 
   const { append, remove, fields } = useFieldArray({ control, name: "items" });
+
+  useEffect(() => {
+    if (!selectedUnit) {
+      setSelectedUnit(options[0]);
+    }
+  }, [options]);
 
   return (
     <form>
@@ -40,9 +48,14 @@ function BestBuy() {
 
               <div>
                 <Select
+                  value={selectedUnit}
                   options={options}
+                  isDisabled={index > 0}
                   defaultValue={options[0]}
                   name={`${fieldName}.unit`}
+                  onChange={(e) => {
+                    setSelectedUnit(e);
+                  }}
                 />
               </div>
             </fieldset>
