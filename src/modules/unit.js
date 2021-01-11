@@ -1,7 +1,8 @@
 class Unit{
-    constructor(label, basicValue){
+    constructor(label, basicValue, type){
         this.label = label;
         this.basicValue = basicValue;
+        this.type = type;
     }
 }
 
