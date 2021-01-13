@@ -1,28 +1,75 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useReducer, useRef } from "react";
 import Unit from "../modules/unit";
 import { useForm, useFieldArray, Controller } from "react-hook-form";
 import Select from "react-select";
 
-function BestBuy() {
-    const [selectedUnit, setSelectedUnit] = useState(null);
-    const [secondariesSelectedUnits, setSecondariesSelectedUnits] = useState([]);
-    const [secondaryOptions, setSecondaryOptions] = useState([]);
+const unitTypes = {
+    LENGTH: 'Length',
+    VOLUME: 'Volume'
+}
 
-    const unitTypes = {
-        LENGTH: 'Length',
-        VOLUME: 'Volume'
+const units = [
+    new Unit("Litros", 1000, unitTypes.VOLUME),
+    new Unit("ml", 1, unitTypes.VOLUME),
+    new Unit("Metros", 100, unitTypes.LENGTH),
+    new Unit("Centímetros", 1, unitTypes.LENGTH),
+];
+
+let primaryOptions = units.map((u) => {
+    return { value: u.label, label: u.label, type: u.type };
+});
+
+const defaultSelectedUnit = primaryOptions[0];
+
+const defaultSecondaryOptions = units.filter(u => u.type === defaultSelectedUnit.type).map((u) => {
+    return { value: u.label, label: u.label, type: u.type };
+});
+
+
+const initialState = {
+    primarySelectedUnit: defaultSelectedUnit,
+    secondariesSelectedUnits: [],
+    primaryOptions,
+    secondaryOptions: defaultSecondaryOptions,
+}
+
+function reducer(state, action) {
+    switch (action.type) {
+        case "reset":
+            return {
+                ...initialState
+            }
+        case "selectPrimaryOption":
+            return {
+                ...state,
+                primarySelectedUnit: action.payload,
+                secondariesSelectedUnits: [],
+                secondaryOptions: units.filter(u => u.type === action.payload.type).map((u) => {
+                    return { value: u.label, label: u.label, type: u.type };
+                }),
+            }
+        case "selectSecondaryOption":
+            state.secondariesSelectedUnits[action.payload.index] = action.payload.item;
+            return {
+                ...state,
+            }
+        default:
+            throw Error()
     }
+}
 
-    const units = [
-        new Unit("Litros", 1000, unitTypes.VOLUME),
-        new Unit("ml", 1, unitTypes.VOLUME),
-        new Unit("Metros", 100, unitTypes.LENGTH),
-        new Unit("Centímetros", 1, unitTypes.LENGTH),
-    ];
+function BestBuy() {
 
-    let options = units.map((u) => {
-        return { value: u.label, label: u.label, type: u.type };
-    });
+    const selectInputRef = useRef([]);
+    selectInputRef.current = [];
+
+    const addToRefs = el => {
+        if (el && !selectInputRef.current.includes(el)) {
+            selectInputRef.current.push(el);
+        }
+    };
+
+    const [state, dispatch] = useReducer(reducer, initialState);
 
     const { register, setValue, getValues, control, errors, handleSubmit } = useForm({
         defaultValues: { items: [{}, {}] },
@@ -30,32 +77,13 @@ function BestBuy() {
 
     const { append, remove, fields } = useFieldArray({ control, name: "items" });
 
-    useEffect(() => {
-        if (!selectedUnit) {
-            setSelectedUnit(options[0]);
-        }
-    }, [options]);
-
-    useEffect(() => {
-
-        if (!selectedUnit) return;
-
-        const newSecondaryOptions = units.filter(u => u.type === selectedUnit.type).map((u) => {
-            return { value: u.label, label: u.label, type: u.type };
-        });
-
-        setSecondaryOptions(newSecondaryOptions);
-
-    }, [selectedUnit]);
-
     const clearAllOtherSelects = (index) => {
         fields.forEach((item, idx) => {
-            if(idx === index) return;
+            if (idx === index) return;
+
+            selectInputRef.current[idx].select.clearValue();
 
             setValue(`items[${idx}].unit`, null);
-
-            secondariesSelectedUnits[idx] = null;
-            setSecondariesSelectedUnits(secondariesSelectedUnits);
         });
     };
 
@@ -64,6 +92,11 @@ function BestBuy() {
     };
 
     const onSubmit = data => console.log(data);
+
+    useEffect(() => {
+
+        clearAllOtherSelects(0);
+    }, [state.primarySelectedUnit]);
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -89,18 +122,16 @@ function BestBuy() {
                                     control={control}
                                     render={(props) => {
                                         return <Select
-                                            ref={register}
-                                            value={index == 0 ? selectedUnit : secondariesSelectedUnits[index]}
-                                            options={index == 0 ? options : secondaryOptions}
+                                            ref={addToRefs}
+                                            value={index == 0 ? state.primarySelectedUnit : state.secondariesSelectedUnits[index]}
+                                            options={index == 0 ? state.primaryOptions : state.secondaryOptions}
                                             onChange={(e) => {
                                                 props.onChange(e);
 
-                                                if(index == 0){
-                                                    setSelectedUnit(e);
-                                                    clearAllOtherSelects(index);
-                                                }else{
-                                                    secondariesSelectedUnits[index] = e;
-                                                    setSecondariesSelectedUnits(secondariesSelectedUnits);
+                                                if (index == 0) {
+                                                    dispatch({ type: 'selectPrimaryOption', payload: e });
+                                                } else {
+                                                    dispatch({ type: 'selectSecondaryOption', payload: { index, item: e } });
                                                 }
 
                                                 fieldChanged(e);
