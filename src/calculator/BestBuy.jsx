@@ -1,7 +1,6 @@
-import React, { useEffect, useReducer, useRef } from "react";
+import React, { useEffect, useReducer } from "react";
 import Unit from "../modules/unit";
-import { useForm, useFieldArray, Controller } from "react-hook-form";
-import Select from "react-select";
+import { useForm, useFieldArray } from "react-hook-form";
 
 const unitTypes = {
     LENGTH: 'Length',
@@ -60,15 +59,6 @@ function reducer(state, action) {
 
 function BestBuy() {
 
-    const selectInputRef = useRef([]);
-    selectInputRef.current = [];
-
-    const addToRefs = el => {
-        if (el && !selectInputRef.current.includes(el)) {
-            selectInputRef.current.push(el);
-        }
-    };
-
     const [state, dispatch] = useReducer(reducer, initialState);
 
     const { register, setValue, getValues, control, errors, handleSubmit } = useForm({
@@ -81,20 +71,17 @@ function BestBuy() {
         fields.forEach((item, idx) => {
             if (idx === index) return;
 
-            selectInputRef.current[idx].select.clearValue();
-
             setValue(`items[${idx}].unit`, null);
         });
     };
 
     const fieldChanged = (e) => {
-        console.log(getValues());
+        const formValues = getValues();
     };
 
     const onSubmit = data => console.log(data);
 
     useEffect(() => {
-
         clearAllOtherSelects(0);
     }, [state.primarySelectedUnit]);
 
@@ -102,6 +89,9 @@ function BestBuy() {
         <form onSubmit={handleSubmit(onSubmit)}>
             {fields.map((field, index) => {
                 const fieldName = `items[${index}]`;
+
+                const options = index == 0 ? state.primaryOptions : state.secondaryOptions;
+
                 return (
                     <fieldset name={field.id} key={field.id}>
                         <div>
@@ -117,29 +107,31 @@ function BestBuy() {
                             </div>
 
                             <div>
-                                <Controller
-                                    name={`${fieldName}.unit`}
-                                    control={control}
-                                    render={(props) => {
-                                        return <Select
-                                            ref={addToRefs}
-                                            value={index == 0 ? state.primarySelectedUnit : state.secondariesSelectedUnits[index]}
-                                            options={index == 0 ? state.primaryOptions : state.secondaryOptions}
-                                            onChange={(e) => {
-                                                props.onChange(e);
+                                <select name={`${fieldName}.unit`} ref={register} onChange={(e) => {
 
-                                                if (index == 0) {
-                                                    dispatch({ type: 'selectPrimaryOption', payload: e });
-                                                } else {
-                                                    dispatch({ type: 'selectSecondaryOption', payload: { index, item: e } });
-                                                }
+                                    const selectIndex = e.nativeEvent.target.selectedIndex;
 
-                                                fieldChanged(e);
-                                            }}
-                                        />
-                                    }}
+                                    const value = e.target.value;
+                                    const label = e.nativeEvent.target[selectIndex].text;
+                                    const type = e.nativeEvent.target[selectIndex].attributes['data-type'].value;
 
-                                />
+                                    const optionPayload = { value, label, type }
+
+                                    if (index == 0) {
+                                        dispatch({ type: 'selectPrimaryOption', payload: optionPayload });
+                                    } else {
+                                        dispatch({ type: 'selectSecondaryOption', payload: { index, item: optionPayload } });
+                                    }
+
+                                    fieldChanged(e);
+                                }}>
+                                    {options.map(item => (
+                                        <option key={item.value} data-type={item.type} value={item.value}>
+                                            {item.label}
+                                        </option>
+                                    ))}
+                                </select>
+
                             </div>
 
                             <div>
