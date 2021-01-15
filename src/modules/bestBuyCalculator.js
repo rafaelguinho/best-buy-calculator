@@ -8,6 +8,9 @@ class BestBuyCalculator {
     }
 
     compare() {
+
+        if (this.products.some(p => !p.allValuesFilled())) return null;
+
         var minPrice = this.products[0].priceByBasicUnit();
         var mostFavourable = this.products[0];
         var savedMoney = 0;
@@ -21,10 +24,10 @@ class BestBuyCalculator {
         this.products.forEach(p => {
             var priceByBasicUnitAmount = p.priceByBasicUnitAmount(mostFavourable.amountByBasicUnit());
             var saved = priceByBasicUnitAmount - mostFavourable.price;
-            
+
             saved = Math.round(saved * 100) / 100;
 
-            if(saved > savedMoney){
+            if (saved > savedMoney) {
                 savedMoney = saved
             }
         });

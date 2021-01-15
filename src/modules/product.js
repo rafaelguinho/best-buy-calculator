@@ -5,6 +5,8 @@ class Product {
         this.unit = unit;
     }
 
+    allValuesFilled() { return this.price && this.amount && this.unit }
+
     priceByBasicUnit() {
         return this.price / this.amountByBasicUnit();
     }
@@ -13,7 +15,7 @@ class Product {
         return this.unit.basicValue * this.amount
     }
 
-    priceByBasicUnitAmount(amount){
+    priceByBasicUnitAmount(amount) {
         return this.priceByBasicUnit() * amount;
     }
 

@@ -1,5 +1,7 @@
 import React, { useEffect, useReducer } from "react";
 import Unit from "../modules/unit";
+import Product from "../modules/product";
+import BestBuyCalculator from "../modules/bestBuyCalculator";
 import { useForm, useFieldArray } from "react-hook-form";
 
 const unitTypes = {
@@ -77,6 +79,14 @@ function BestBuy() {
 
     const fieldChanged = (e) => {
         const formValues = getValues();
+
+        const products = formValues.items.map(f => (new Product(f.price, f.amount, findUnit(f.unit))));
+
+        const calculator = new BestBuyCalculator(products);
+
+        const result = calculator.compare();
+
+        console.log(result);
     };
 
     const onSubmit = data => console.log(data);
@@ -84,6 +94,11 @@ function BestBuy() {
     useEffect(() => {
         clearAllOtherSelects(0);
     }, [state.primarySelectedUnit]);
+
+    const findUnit = (unitName) => {
+        if (!unitName) return null;
+        return units.find(u => u.label === unitName);
+    };
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
