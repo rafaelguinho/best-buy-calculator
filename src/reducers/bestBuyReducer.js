@@ -1,33 +1,21 @@
-const units = [
-    new Unit("Litros", 1000, unitTypes.VOLUME),
-    new Unit("ml", 1, unitTypes.VOLUME),
-    new Unit("Metros", 100, unitTypes.LENGTH),
-    new Unit("Centímetros", 1, unitTypes.LENGTH),
-];
-
-let primaryOptions = units.map((u) => {
-    return { value: u.label, label: u.label, type: u.type };
-});
-
-const defaultSelectedUnit = primaryOptions[0];
-
-const defaultSecondaryOptions = units.filter(u => u.type === defaultSelectedUnit.type).map((u) => {
-    return { value: u.label, label: u.label, type: u.type };
-});
-
-
-const initialState = {
-    primarySelectedUnit: defaultSelectedUnit,
-    secondariesSelectedUnits: [],
-    primaryOptions,
-    secondaryOptions: defaultSecondaryOptions,
-}
+import initialState from "../state/initialState";
+import { units } from "../util/units";
 
 function reducer(state, action) {
     switch (action.type) {
         case "reset":
             return {
                 ...initialState
+            }
+        case "anyFieldChanged":
+            return {
+                ...state,
+                moreFavourableProduct: null
+            }
+        case "moreFavourableProductFound":
+            return {
+                ...state,
+                moreFavourableProduct: action.payload
             }
         case "selectPrimaryOption":
             return {
@@ -39,7 +27,7 @@ function reducer(state, action) {
                 }),
             }
         case "selectSecondaryOption":
-            state.secondariesSelectedUnits[index] = e;
+            state.secondariesSelectedUnits[action.payload.index] = action.payload.item;
             return {
                 ...state,
             }
@@ -47,3 +35,5 @@ function reducer(state, action) {
             throw Error()
     }
 }
+
+export default reducer;

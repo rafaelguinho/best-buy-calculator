@@ -1,6 +1,6 @@
 class BestBuyCalculator {
     constructor(products) {
-        if (products == null || products.length == 0) {
+        if (products === null || products.length === 0) {
             throw "You must pass a product"
         }
 
@@ -9,19 +9,22 @@ class BestBuyCalculator {
 
     compare() {
 
-        if (this.products.some(p => !p.allValuesFilled())) return null;
+        const filledProducts = this.products.filter(p => p.allValuesFilled());
+        if (filledProducts.length < 2) return null;
 
         var minPrice = this.products[0].priceByBasicUnit();
         var mostFavourable = this.products[0];
         var savedMoney = 0;
 
-        this.products.forEach(p => {
+        
+
+        filledProducts.forEach(p => {
             if (p.priceByBasicUnit() < minPrice) {
                 mostFavourable = p;
             }
         });
 
-        this.products.forEach(p => {
+        filledProducts.forEach(p => {
             var priceByBasicUnitAmount = p.priceByBasicUnitAmount(mostFavourable.amountByBasicUnit());
             var saved = priceByBasicUnitAmount - mostFavourable.price;
 
