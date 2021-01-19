@@ -16,7 +16,7 @@ class BestBuyCalculator {
         var mostFavourable = this.products[0];
         var savedMoney = 0;
 
-        
+
 
         filledProducts.forEach(p => {
             if (p.priceByBasicUnit() < minPrice) {
@@ -36,8 +36,7 @@ class BestBuyCalculator {
         });
 
         return {
-            savedMoney,
-            mostFavourable
+            mostFavourable: { ...mostFavourable, savedMoney }
         }
     }
 }

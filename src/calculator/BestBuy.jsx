@@ -6,6 +6,7 @@ import { useForm, useFieldArray } from "react-hook-form";
 import reducer from "../reducers/bestBuyReducer";
 import initialState from "../state/initialState";
 import { units } from "../util/units";
+import BestBuyTooltipMessage from '../components/BestBuyTooltipMessage'
 
 function BestBuy() {
 
@@ -61,11 +62,15 @@ function BestBuy() {
 
                 const options = index === 0 ? state.primaryOptions : state.secondaryOptions;
 
+                const isTheBestBuy = field.id === state.moreFavourableProduct?.mostFavourable?.id;
+
                 return (
                     <fieldset name={field.id} key={field.id}>
                         <div>
 
-                            {field.id === state.moreFavourableProduct?.mostFavourable?.id ? <span>Melhor</span> : <></>}
+                            {isTheBestBuy ? <span>Melhor</span> : <></>}
+
+                             <BestBuyTooltipMessage isTheBestBuy={isTheBestBuy} moreFavourableProduct={state.moreFavourableProduct?.mostFavourable} /> 
 
                             <input type="hidden" ref={register} name={`${fieldName}.id`} value={field.id} />
 
