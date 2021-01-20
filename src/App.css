@@ -13,8 +13,22 @@
   }
 }
 
+.unit-select{
+  min-width: 100px;
+}
+.form-fields{
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.Label-field{
+  display: flex;
+  flex-direction: column;
+  margin: 0 .5em;
+}
 .App-header {
-  background-color: #282c34;
+  background-color: #010409;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
