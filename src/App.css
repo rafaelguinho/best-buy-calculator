@@ -13,19 +13,60 @@
   }
 }
 
+fieldset{
+  border: 1px solid darkgray;
+  width: 100%;
+}
+
+fieldset:last-of-type{
+  margin-bottom: 0;
+}
+
+fieldset{
+  margin-bottom: .5em;
+}
+
+@media only screen and (max-width:375px){
+  .button-container{
+    display: flex;
+    justify-content: center;
+    margin-top: .5em;
+  }
+  .form-fields{
+    flex-direction: column;
+    align-items: center;
+  }
+  .Label-field > label{
+    margin-bottom: .2em;
+    }
+
+  .Label-field{
+    width: 100%;
+    margin: .5em;
+  }
+}
+
+@media only screen and (min-width:376px){
+  .Label-field{
+    margin: 0 .5em;
+  }
+  
+  .form-fields{
+    align-items: flex-end;
+  }
+}
+
 .unit-select{
   min-width: 100px;
 }
 .form-fields{
   display: flex;
-  align-items: flex-end;
   justify-content: space-between;
 }
 
 .Label-field{
   display: flex;
   flex-direction: column;
-  margin: 0 .5em;
 }
 .App-header {
   background-color: #010409;
@@ -34,7 +75,6 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
   color: white;
 }
 

@@ -86,7 +86,7 @@ function BestBuy() {
               />
 
               <div className="Label-field">
-                <label>R$</label>
+                <label>Preço R$</label>
                 <input
                   ref={register}
                   onChange={fieldChanged}
@@ -97,7 +97,7 @@ function BestBuy() {
               </div>
 
               <div className="Label-field">
-                <label>Amount</label>
+                <label>Quantidade</label>
                 <input
                   ref={register}
                   onChange={fieldChanged}
@@ -108,6 +108,7 @@ function BestBuy() {
               </div>
 
               <div className="Label-field">
+              <label>Un. Medida</label>
                 <select
                 className="unit-select"
                   name={`${fieldName}.unit`}
@@ -150,7 +151,7 @@ function BestBuy() {
                 </select>
               </div>
 
-              <div>
+              <div className="button-container">
                 <button
                   type="button"
                   disabled={index <= 1}
@@ -165,7 +166,7 @@ function BestBuy() {
           </fieldset>
         );
       })}
-      <div>
+      <div className="button-container">
         <button
           type="button"
           onClick={() => {
