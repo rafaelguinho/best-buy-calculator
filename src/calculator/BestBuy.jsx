@@ -6,6 +6,7 @@ import reducer from "../reducers/bestBuyReducer";
 import initialState from "../state/initialState";
 import { units } from "../util/units";
 import BestBuyTooltipMessage from "../components/BestBuyTooltipMessage";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 function BestBuy() {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -86,19 +87,8 @@ function BestBuy() {
               />
 
               <div className="Label-field">
-                <label>Preço R$</label>
-                <input
-                  ref={register}
-                  onChange={fieldChanged}
-                  type="number"
-                  step="0.01"
-                  name={`${fieldName}.price`}
-                />
-              </div>
-
-              <div className="Label-field">
-                <label>Quantidade</label>
-                <input
+                <input className="input"
+                placeholder="Quantidade"
                   ref={register}
                   onChange={fieldChanged}
                   type="number"
@@ -108,9 +98,19 @@ function BestBuy() {
               </div>
 
               <div className="Label-field">
-              <label>Un. Medida</label>
+                <input className="input"
+                placeholder="Preço R$"
+                  ref={register}
+                  onChange={fieldChanged}
+                  type="number"
+                  step="0.01"
+                  name={`${fieldName}.price`}
+                />
+              </div>
+
+              <div className="select Label-field">
                 <select
-                className="unit-select"
+                  className="unit-select"
                   name={`${fieldName}.unit`}
                   ref={register}
                   onChange={(e) => {
@@ -159,7 +159,7 @@ function BestBuy() {
                     remove(index);
                   }}
                 >
-                  Remove
+                  <FontAwesomeIcon icon="times" />
                 </button>
               </div>
             </div>

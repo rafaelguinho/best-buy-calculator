@@ -26,6 +26,62 @@ fieldset{
   margin-bottom: .5em;
 }
 
+/* Reset Select */
+select, .input {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  outline: 0;
+  box-shadow: none;
+  border: 0 !important;
+  background: #2c3e50;
+  background-image: none;
+}
+/* Remove IE arrow */
+select::-ms-expand {
+  display: none;
+}
+/* Custom Select */
+.select, .input {
+  position: relative;
+  display: flex;
+  width: 10em;
+  height: 40px;
+  
+  background: #2c3e50;
+  overflow: hidden;
+  border-radius: .25em;
+}
+select, .input {
+  line-height: 3;
+  flex: 1;
+  padding: 0 .5em;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* Arrow */
+.select::after {
+  line-height: 2.5;
+  content: '\25BC';
+  position: absolute;
+  height: 40px;
+  top: 0;
+  right: 0;
+  padding: 0 1em;
+  background: #34495e;
+  cursor: pointer;
+  pointer-events: none;
+  -webkit-transition: .25s all ease;
+  -o-transition: .25s all ease;
+  transition: .25s all ease;
+}
+/* Transition */
+.select:hover::after {
+  color: #f39c12;
+}
+
 @media only screen and (max-width:375px){
   .button-container{
     display: flex;
@@ -33,8 +89,8 @@ fieldset{
     margin-top: .5em;
   }
   .form-fields{
-    flex-direction: column;
     align-items: center;
+    flex-direction: column;
   }
   .Label-field > label{
     margin-bottom: .2em;
@@ -62,6 +118,8 @@ fieldset{
 .form-fields{
   display: flex;
   justify-content: space-between;
+
+  align-items: center;
 }
 
 .Label-field{
