@@ -5,9 +5,7 @@ import BestBuy from './calculator/BestBuy';
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
         <BestBuy></BestBuy>
-      </header>
     </div>
   );
 }

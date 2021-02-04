@@ -6,6 +6,7 @@ import reducer from "../reducers/bestBuyReducer";
 import initialState from "../state/initialState";
 import { units } from "../util/units";
 import BestBuyTooltipMessage from "../components/BestBuyTooltipMessage";
+import { faTrashAlt, faPlusCircle, faTrophy } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 function BestBuy() {
@@ -69,15 +70,21 @@ function BestBuy() {
 
         return (
           <fieldset name={field.id} key={field.id}>
-            <div className="form-fields">
-              {isTheBestBuy ? <span>Melhor</span> : <></>}
 
-              <BestBuyTooltipMessage
-                isTheBestBuy={isTheBestBuy}
-                moreFavourableProduct={
-                  state.moreFavourableProduct?.mostFavourable
-                }
-              />
+            {isTheBestBuy ?
+              <div className="best-container">
+                <strong><FontAwesomeIcon icon={faTrophy} size="1x" /> Melhor</strong>
+
+                <BestBuyTooltipMessage
+                  isTheBestBuy={isTheBestBuy}
+                  moreFavourableProduct={
+                    state.moreFavourableProduct?.mostFavourable
+                  }
+                />
+              </div>
+              : <></>}
+
+            <div className="form-fields">
 
               <input
                 type="hidden"
@@ -88,7 +95,7 @@ function BestBuy() {
 
               <div className="Label-field">
                 <input className="input"
-                placeholder="Quantidade"
+                  placeholder="Quantidade"
                   ref={register}
                   onChange={fieldChanged}
                   type="number"
@@ -99,7 +106,7 @@ function BestBuy() {
 
               <div className="Label-field">
                 <input className="input"
-                placeholder="Preço R$"
+                  placeholder="Preço R$"
                   ref={register}
                   onChange={fieldChanged}
                   type="number"
@@ -153,27 +160,32 @@ function BestBuy() {
 
               <div className="button-container">
                 <button
+                  className='button'
                   type="button"
                   disabled={index <= 1}
                   onClick={() => {
                     remove(index);
+                    console.log(index);
+                    console.log(fields);
                   }}
                 >
-                  <FontAwesomeIcon icon="times" />
+
+                  <FontAwesomeIcon icon={faTrashAlt} size="1x" />
                 </button>
               </div>
             </div>
           </fieldset>
         );
       })}
-      <div className="button-container">
+      <div className="button-container append">
         <button
           type="button"
+          className="button"
           onClick={() => {
             append({});
           }}
         >
-          Add
+          <FontAwesomeIcon icon={faPlusCircle} size="1x" /> Add
         </button>
       </div>
     </form>

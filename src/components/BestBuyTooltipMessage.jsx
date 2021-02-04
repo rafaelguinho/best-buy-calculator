@@ -1,4 +1,6 @@
 import React, {useState, useEffect} from 'react';
+import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 function BestBuyTooltipMessage({ isTheBestBuy, moreFavourableProduct }) {
 
@@ -18,7 +20,7 @@ function BestBuyTooltipMessage({ isTheBestBuy, moreFavourableProduct }) {
     },[isTheBestBuy, moreFavourableProduct]);
 
 
-    return (isTheBestBuy ? <span data-tooltip="Tooltip" aria-describedby="tooltipText" tabindex="0">{message}</span> : <></>)
+    return (isTheBestBuy ? <p><FontAwesomeIcon icon={faInfoCircle} /> {message}</p> : <></>)
 }
 
 export default BestBuyTooltipMessage;
