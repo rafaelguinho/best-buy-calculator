@@ -12,6 +12,10 @@ fieldset{
   border: 1px solid darkgray;
 }
 
+fieldset.best{
+  border: 1px solid #f39c12;
+}
+
 fieldset:last-of-type{
   margin-bottom: 0;
 }
@@ -92,6 +96,16 @@ select, .input {
 }
 
 @media only screen and (max-width:414px){
+  .best-container > strong {
+    text-align: center;
+  }
+  .best-info{
+    margin-top: 0;
+    line-height: 1.5em;
+    margin-bottom: 0;
+    margin-left: 1em;
+    text-align: center;
+  }
   .button-container{
     display: flex;
     justify-content: center;
@@ -112,6 +126,9 @@ select, .input {
 }
 
 @media only screen and (min-width:415px){
+  .best-container > p{
+    margin: 0;
+  }
   .button-container {
     margin-top: 0;
 }
@@ -146,7 +163,6 @@ select, .input {
 }
 
 .best-container > p{
-  margin: 0;
   color: #ced6e0
 }
 

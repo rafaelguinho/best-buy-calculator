@@ -20,7 +20,7 @@ function BestBuyTooltipMessage({ isTheBestBuy, moreFavourableProduct }) {
     },[isTheBestBuy, moreFavourableProduct]);
 
 
-    return (isTheBestBuy ? <p><FontAwesomeIcon icon={faInfoCircle} /> {message}</p> : <></>)
+    return (isTheBestBuy ? <p className="best-info"><FontAwesomeIcon icon={faInfoCircle} /> {message}</p> : <></>)
 }
 
 export default BestBuyTooltipMessage;
