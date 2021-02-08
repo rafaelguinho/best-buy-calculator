@@ -1,7 +1,7 @@
 class BestBuyCalculator {
     constructor(products) {
         if (products === null || products.length === 0) {
-            throw "You must pass a product"
+            throw new Error("You must pass a product")
         }
 
         this.products = products;

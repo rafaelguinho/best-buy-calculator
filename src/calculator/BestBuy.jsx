@@ -123,7 +123,7 @@ function BestBuy() {
                         thousandSeparator={true}
                         prefix={'R$ '}
                         onValueChange={(values) => {
-                          const { floatValue, value } = values;
+                          const { floatValue } = values;
 
                           onChange(floatValue);
                           fieldChanged();
