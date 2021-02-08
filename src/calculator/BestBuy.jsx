@@ -1,13 +1,14 @@
 import React, { useEffect, useReducer } from "react";
 import Product from "../modules/product";
 import BestBuyCalculator from "../modules/bestBuyCalculator";
-import { useForm, useFieldArray } from "react-hook-form";
+import { useForm, useFieldArray, Controller } from "react-hook-form";
 import reducer from "../reducers/bestBuyReducer";
 import initialState from "../state/initialState";
 import { units } from "../util/units";
 import BestBuyTooltipMessage from "../components/BestBuyTooltipMessage";
 import { faTrashAlt, faPlusCircle, faTrophy } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import CurrencyFormat from 'react-currency-format';
 
 function BestBuy() {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -71,9 +72,9 @@ function BestBuy() {
             field.id === state.moreFavourableProduct?.mostFavourable?.id;
 
           return (
-            <fieldset className={isTheBestBuy ? 'best': ''} name={field.id} key={field.id}>
+            <fieldset className={isTheBestBuy ? 'best' : ''} name={field.id} key={field.id}>
 
-               {isTheBestBuy ?
+              {isTheBestBuy ?
                 <div className="best-container">
                   <strong><FontAwesomeIcon icon={faTrophy} size="1x" /> Melhor</strong>
 
@@ -84,7 +85,7 @@ function BestBuy() {
                     }
                   />
                 </div>
-                : <></>} 
+                : <></>}
 
               <div className="form-fields">
 
@@ -108,15 +109,30 @@ function BestBuy() {
                 </div>
 
                 <div className="Label-field">
-                  <input className="input"
-                    placeholder="Preço R$"
-                    ref={register()}
-                    onChange={fieldChanged}
-                    type="number"
-                    step="0.01"
+
+
+                  <Controller
+                    control={control}
                     name={`${fieldName}.price`}
-                    defaultValue={`${field.price}`}
+                    render={(
+                      { onChange }
+                    ) => (
+                      <CurrencyFormat className="input"
+                        placeholder="Preço R$"
+                        fixedDecimalScale={true}
+                        thousandSeparator={true}
+                        prefix={'R$ '}
+                        onValueChange={(values) => {
+                          const { floatValue, value } = values;
+
+                          onChange(floatValue);
+                          fieldChanged();
+                        }} />
+
+                    )}
                   />
+
+
                 </div>
 
                 <div className="select Label-field">
