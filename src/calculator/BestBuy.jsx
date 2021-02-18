@@ -119,6 +119,7 @@ function BestBuy() {
                     ) => (
                       <CurrencyFormat className="input"
                         placeholder="Preço R$"
+                         type="tel"
                         fixedDecimalScale={true}
                         thousandSeparator={true}
                         prefix={'R$ '}

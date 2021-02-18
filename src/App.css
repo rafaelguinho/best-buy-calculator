@@ -2,30 +2,26 @@
   padding: 1em;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
 
-fieldset{
+fieldset {
   border: 1px solid darkgray;
 }
 
-fieldset.best{
+fieldset.best {
   border: 1px solid #f39c12;
 }
 
-fieldset:last-of-type{
+fieldset:last-of-type {
   margin-bottom: 0;
 }
 
-fieldset{
-  margin-bottom: .5em;
+fieldset {
+  margin-bottom: 0.5em;
 }
 
 /* Reset Select */
-select, .input {
+select,
+.input {
   -webkit-appearance: none;
   -moz-appearance: none;
   -ms-appearance: none;
@@ -42,20 +38,22 @@ select::-ms-expand {
   display: none;
 }
 /* Custom Select */
-.select, .input {
+.select,
+.input {
   position: relative;
   display: flex;
   width: 10em;
   height: 40px;
-  
+
   background: #2c3e50;
   overflow: hidden;
-  border-radius: .25em;
+  border-radius: 0.25em;
 }
-select, .input {
+select,
+.input {
   line-height: 3;
   flex: 1;
-  padding: 0 .5em;
+  padding: 0 0.5em;
   color: #fff;
   cursor: pointer;
 }
@@ -63,7 +61,7 @@ select, .input {
 /* Arrow */
 .select::after {
   line-height: 2.5;
-  content: '\25BC';
+  content: "\25BC";
   position: absolute;
   height: 40px;
   top: 0;
@@ -72,106 +70,106 @@ select, .input {
   background: #34495e;
   cursor: pointer;
   pointer-events: none;
-  -webkit-transition: .25s all ease;
-  -o-transition: .25s all ease;
-  transition: .25s all ease;
+  -webkit-transition: 0.25s all ease;
+  -o-transition: 0.25s all ease;
+  transition: 0.25s all ease;
 }
 /* Transition */
 .select:hover::after {
   color: #f39c12;
 }
 
-.button{
+.button {
   height: 40px;
   min-width: 40px;
 }
-.button-container{
+.button-container {
   display: flex;
   justify-content: center;
-  margin-top: .5em;
+  margin-top: 0.5em;
 }
 
-.Label-field{
+.Label-field {
   width: 100%;
 }
 
-@media only screen and (max-width:414px){
+@media only screen and (max-width: 554px) {
   .best-container > strong {
     text-align: center;
   }
-  .best-info{
+  .best-info {
     margin-top: 0;
     line-height: 1.5em;
     margin-bottom: 0;
     margin-left: 1em;
     text-align: center;
   }
-  .button-container{
+  .button-container {
     display: flex;
     justify-content: center;
-    margin-top: .5em;
+    margin-top: 0.5em;
   }
-  .form-fields{
+  .form-fields {
     align-items: center;
     flex-direction: column;
   }
-  .Label-field > label{
-    margin-bottom: .2em;
-    }
+  .Label-field > label {
+    margin-bottom: 0.2em;
+  }
 
-  .Label-field{
+  .Label-field {
     width: 100%;
-    margin: .5em;
+    margin: 0.5em;
   }
 }
 
-@media only screen and (min-width:415px){
-  .best-container > p{
+@media only screen and (min-width: 555px) {
+  .best-container > p {
     margin: 0;
   }
   .button-container {
     margin-top: 0;
-}
-.button-container.append{
-  margin-top: 1.1em;
-}
-
-  .Label-field{
-    margin: 0 .5em;
   }
-  
-  .form-fields{
+  .button-container.append {
+    margin-top: 1.1em;
+  }
+
+  .Label-field {
+    margin: 0 0.5em;
+  }
+
+  .form-fields {
     align-items: flex-end;
   }
 }
 
-.unit-select{
+.unit-select {
   min-width: 100px;
 }
-.form-fields{
+.form-fields {
   display: flex;
   justify-content: space-between;
 
   align-items: center;
 }
 
-.best-container{
+.best-container {
   display: flex;
   justify-content: space-between;
-  margin: .5em 0;
+  margin: 0.5em 0;
   font-size: 9pt;
 }
 
-.best-container > p{
-  color: #ced6e0
+.best-container > p {
+  color: #ced6e0;
 }
 
-.best-container > strong{
+.best-container > strong {
   color: #f39c12;
   font-size: 10pt;
 }
 
-.Label-field{
+.Label-field {
   display: flex;
 }
 .App-header {
