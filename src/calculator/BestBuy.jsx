@@ -67,7 +67,13 @@ function BestBuy() {
       });
     };
     clearAllOtherSelects(0);
-  }, [state.primarySelectedUnit, fields, setValue]);
+  }, [
+    state.primarySelectedUnit,
+    state.secondariesSelectedUnits,
+    state.secondaryOptions,
+    fields,
+    setValue,
+  ]);
 
   const findUnit = (unitName) => {
     if (!unitName) return null;
