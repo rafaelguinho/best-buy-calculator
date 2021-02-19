@@ -59,8 +59,7 @@ function BestBuy() {
         if (idx === index) return;
 
         const secondaryOption =
-          state.secondariesSelectedUnits &&
-          state.secondariesSelectedUnits[idx]
+          state.secondariesSelectedUnits && state.secondariesSelectedUnits[idx]
             ? state.secondariesSelectedUnits[idx].value
             : state.secondaryOptions[0].value;
 
