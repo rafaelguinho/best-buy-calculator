@@ -6,18 +6,30 @@ import reducer from "../reducers/bestBuyReducer";
 import initialState from "../state/initialState";
 import { units } from "../util/units";
 import BestBuyTooltipMessage from "../components/BestBuyTooltipMessage";
-import { faTrashAlt, faPlusCircle, faTrophy } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import CurrencyFormat from 'react-currency-format';
+import {
+  faTrashAlt,
+  faPlusCircle,
+  faTrophy,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import CurrencyFormat from "react-currency-format";
 
 function BestBuy() {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const { register, setValue, getValues, control, handleSubmit } = useForm({
-    defaultValues: { products: [{ amount: '', price: '', unit: '' }, { amount: '', price: '', unit: '' }] },
+    defaultValues: {
+      products: [
+        { amount: "", price: "", unit: "" },
+        { amount: "", price: "", unit: "" },
+      ],
+    },
   });
 
-  const { fields, append, remove } = useFieldArray({ control, name: "products" });
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "products",
+  });
 
   const fieldChanged = (e) => {
     dispatch({ type: "anyFieldChanged" });
@@ -46,7 +58,13 @@ function BestBuy() {
       fields.forEach((item, idx) => {
         if (idx === index) return;
 
-        setValue(`products[${idx}].unit`, null);
+        const secondaryOption =
+          state.secondariesSelectedUnits &&
+          state.secondariesSelectedUnits[idx]
+            ? state.secondariesSelectedUnits[idx].value
+            : state.secondaryOptions[0].value;
+
+        setValue(`products[${idx}].unit`, secondaryOption);
       });
     };
     clearAllOtherSelects(0);
@@ -60,8 +78,6 @@ function BestBuy() {
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
-
-
         {fields.map((field, index) => {
           const fieldName = `products[${index}]`;
 
@@ -72,11 +88,16 @@ function BestBuy() {
             field.id === state.moreFavourableProduct?.mostFavourable?.id;
 
           return (
-            <fieldset className={isTheBestBuy ? 'best' : ''} name={field.id} key={field.id}>
-
-              {isTheBestBuy ?
+            <fieldset
+              className={isTheBestBuy ? "best" : ""}
+              name={field.id}
+              key={field.id}
+            >
+              {isTheBestBuy ? (
                 <div className="best-container">
-                  <strong><FontAwesomeIcon icon={faTrophy} size="1x" /> Melhor</strong>
+                  <strong>
+                    <FontAwesomeIcon icon={faTrophy} size="1x" /> Melhor
+                  </strong>
 
                   <BestBuyTooltipMessage
                     isTheBestBuy={isTheBestBuy}
@@ -85,10 +106,11 @@ function BestBuy() {
                     }
                   />
                 </div>
-                : <></>}
+              ) : (
+                <></>
+              )}
 
               <div className="form-fields">
-
                 <input
                   type="hidden"
                   ref={register()}
@@ -97,7 +119,8 @@ function BestBuy() {
                 />
 
                 <div className="Label-field">
-                  <input className="input"
+                  <input
+                    className="input"
                     placeholder="Quantidade"
                     ref={register()}
                     onChange={fieldChanged}
@@ -109,31 +132,26 @@ function BestBuy() {
                 </div>
 
                 <div className="Label-field">
-
-
                   <Controller
                     control={control}
                     name={`${fieldName}.price`}
-                    render={(
-                      { onChange }
-                    ) => (
-                      <CurrencyFormat className="input"
+                    render={({ onChange }) => (
+                      <CurrencyFormat
+                        className="input"
                         placeholder="Preço R$"
-                         type="tel"
+                        type="tel"
                         fixedDecimalScale={true}
                         thousandSeparator={true}
-                        prefix={'R$ '}
+                        prefix={"R$ "}
                         onValueChange={(values) => {
                           const { floatValue } = values;
 
                           onChange(floatValue);
                           fieldChanged();
-                        }} />
-
+                        }}
+                      />
                     )}
                   />
-
-
                 </div>
 
                 <div className="select Label-field">
@@ -148,8 +166,9 @@ function BestBuy() {
                       const value = e.target.value;
                       const label = e.nativeEvent.target[selectIndex].text;
                       const type =
-                        e.nativeEvent.target[selectIndex].attributes["data-type"]
-                          .value;
+                        e.nativeEvent.target[selectIndex].attributes[
+                          "data-type"
+                        ].value;
 
                       const optionPayload = { value, label, type };
 
@@ -182,7 +201,7 @@ function BestBuy() {
 
                 <div className="button-container">
                   <button
-                    className='button'
+                    className="button"
                     type="button"
                     disabled={index <= 1}
                     onClick={() => {
@@ -191,7 +210,6 @@ function BestBuy() {
                       console.log(fields);
                     }}
                   >
-
                     <FontAwesomeIcon icon={faTrashAlt} size="1x" />
                   </button>
                 </div>
@@ -208,7 +226,7 @@ function BestBuy() {
             }}
           >
             <FontAwesomeIcon icon={faPlusCircle} size="1x" /> Add
-        </button>
+          </button>
         </div>
       </form>
     </>
