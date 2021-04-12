@@ -96,6 +96,7 @@ function BestBuy() {
             <button
               type="button"
               className="button"
+              id="reset"
               onClick={() => {
                 reset(defaultValues);
               }}
